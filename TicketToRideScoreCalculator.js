@@ -1,30 +1,40 @@
-(function($)
+(function()
 {
-	$(document).ready(function()
+	if (typeof scLoaded === 'undefined')
 	{
 		var TTRSC = "ticket-to-ride-score-calculator";
 		
-		var $scTableHeaderRow = $('<tr class="' + TTRSC + '-table-header"><th></th></tr>');
-		var $scTableHead = $('<thead></thead>').append($scTableHeaderRow);
-		var $scTableBody = $('<tbody class="' + TTRSC + '-table-body"></tbody>');
-		var $scTable = $('<table></table>').append($scTableHead).append($scTableBody);
-		var $scDiv = $('.' + TTRSC + '-div').append($scTable);
+		var scTableHeaderRow = document.createElement('tr');
+		scTableHeaderRow.className = TTRSC + '-table-header';
 		
+		var scTableHead = document.createElement('thead');
+		scTableHead.appendChild(scTableHeaderRow);
+		
+		var scTableBody = document.createElement('tbody');
+		scTableBody.className = TTRSC + '-table-body';
+		
+		var scTable = document.createElement('table');
+		scTable.appendChild(scTableHead);
+		scTable.appendChild(scTableBody);
+		
+		
+		var parent = (function(coll) { return coll[coll.length - 1]; })(document.getElementsByTagName('script')).parentNode;
+		parent.appendChild(scTable);
 		
 		var colors = ['Black', 'Blue', 'Green', 'Red', 'Yellow'];
 		var fields = ['One-Train Tracks', 'Two-Train Tracks', 'Three-Train Tracks', 'Four-Train Tracks', 'Five-Train Tracks', 'Six-Train Tracks', 'Longest Track Length', 'Destinations Reached Points', 'Destinations Failed Points', 'Extra Points'];
 		var fieldNamesFormatted = fields.map(function(field) { return field.toLowerCase().replace(/\s+/, "-"); })
 		var fieldRowClasses = fieldNamesFormatted.map(function(fieldName) { return TTRSC + '-' + fieldName + '-row'; });
 		
-		fields.forEach(function(field)
-		{
-			//$scTableBody.append('<tr class="
-		});
-		
+		var scTableHeaderFirstCell = document.createElement('th');
+		scTableHeaderFirstCell.innerText = 'Fields';
+		scTableHeaderRow.appendChild(scTableHeaderFirstCell);
 		colors.forEach(function(color)
 		{
-			$scTableHeaderRow.append('<th>' + color + '</th>');
-			
+			var scTableHeaderRowColor = document.createElement('th');
+			scTableHeaderRowColor.innerText = color;
+			scTableHeaderRow.appendChild(scTableHeaderRowColor);
 		});
-	});
-})(jQuery);
+	}
+	scLoaded = true;
+})();
