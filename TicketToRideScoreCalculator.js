@@ -2,39 +2,64 @@
 {
 	if (typeof scLoaded === 'undefined')
 	{
-		var TTRSC = "ticket-to-ride-score-calculator";
-		
-		var scTableHeaderRow = document.createElement('tr');
-		scTableHeaderRow.className = TTRSC + '-table-header';
-		
-		var scTableHead = document.createElement('thead');
-		scTableHead.appendChild(scTableHeaderRow);
-		
-		var scTableBody = document.createElement('tbody');
-		scTableBody.className = TTRSC + '-table-body';
-		
-		var scTable = document.createElement('table');
-		scTable.appendChild(scTableHead);
-		scTable.appendChild(scTableBody);
-		
-		
-		var parent = (function(coll) { return coll[coll.length - 1]; })(document.getElementsByTagName('script')).parentNode;
-		parent.appendChild(scTable);
+		var TTRSC = 'ticket-to-ride-score-calculator-';
 		
 		var colors = ['Black', 'Blue', 'Green', 'Red', 'Yellow'];
-		var fields = ['One-Train Tracks', 'Two-Train Tracks', 'Three-Train Tracks', 'Four-Train Tracks', 'Five-Train Tracks', 'Six-Train Tracks', 'Longest Track Length', 'Destinations Reached Points', 'Destinations Failed Points', 'Extra Points'];
-		var fieldNamesFormatted = fields.map(function(field) { return field.toLowerCase().replace(/\s+/, "-"); })
-		var fieldRowClasses = fieldNamesFormatted.map(function(fieldName) { return TTRSC + '-' + fieldName + '-row'; });
+		var colorNames = colors.map(function(color) { return color.toLowerCase(); });
 		
-		var scTableHeaderFirstCell = document.createElement('th');
-		scTableHeaderFirstCell.innerText = 'Fields';
-		scTableHeaderRow.appendChild(scTableHeaderFirstCell);
+		var quantityFields = ['One-Train Tracks', 'Two-Train Tracks', 'Three-Train Tracks', 'Four-Train Tracks', 'Five-Train Tracks', 'Six-Train Tracks', 'Longest Track Length'];
+		var quantityFieldNames = quantityFields.map(function(field) { return TTRSC + field.toLowerCase().replace(/\s+/, "-") + '-'; })
+		
+		var textFields = ['Destinations Reached Points', 'Destinations Failed Points', 'Extra Points'];
+		var textFieldNames = textFields.map(function(field) { return TTRSC + field.toLowerCase().replace(/\s+/, "-") + '-'; })
+		
+		var headerRow = document.createElement('tr');
+		headerRow.className = TTRSC + 'table-header';
+		
+		var tableHead = document.createElement('thead');
+		tableHead.appendChild(headerRow);
+		
+		var firstHeaderCell = document.createElement('th');
+		firstHeaderCell.innerText = 'Fields';
+		headerRow.appendChild(firstHeaderCell);
 		colors.forEach(function(color)
 		{
-			var scTableHeaderRowColor = document.createElement('th');
-			scTableHeaderRowColor.innerText = color;
-			scTableHeaderRow.appendChild(scTableHeaderRowColor);
+			var headerColorCell = document.createElement('th');
+			headerColorCell.innerText = color;
+			headerRow.appendChild(headerColorCell);
 		});
+		
+		var tableBody = document.createElement('tbody');
+		
+		quantityFieldNames.forEach(function(field, fieldIndex)
+		{
+			var fieldRow = document.createElement('tr');
+			var fieldLabel = document.createElement('td');
+			fieldLabel.innerText = quantityFields[fieldIndex];
+			fieldLabel.style = 'font-style:italic;text-align:right;';
+			fieldRow.appendChild(fieldLabel);
+			
+			colorNames.forEach(function(color)
+			{
+				var fieldInput = document.createElement('input');
+				fieldInput.type = 'number';
+				fieldInput.value = 0;
+				fieldInput.min = 0;
+				fieldInput.className = field + color;
+				
+				var fieldCell = document.createElement('td');
+				fieldCell.appendChild(fieldInput);
+				fieldRow.appendChild(fieldCell);
+			});
+			tableBody.appendChild(fieldRow);
+		});
+		
+		var table = document.createElement('table');
+		table.appendChild(tableHead);
+		table.appendChild(tableBody);
+		
+		var parent = (function(coll) { return coll[coll.length - 1]; })(document.getElementsByTagName('script')).parentNode;
+		parent.appendChild(table);
 	}
 	scLoaded = true;
 })();
