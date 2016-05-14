@@ -6,7 +6,7 @@
 		var nameFormatter = function(field) { return TTRSC + field.toLowerCase().replace(/\s+/g, '-') + '-'; };
 		
 		var colors = ['Black', 'Blue', 'Green', 'Red', 'Yellow'];
-		 colorNames = colors.map(function(color) { return color.toLowerCase(); });
+		var colorNames = colors.map(function(color) { return color.toLowerCase(); });
 		
 		var quantityFields = ['One-Train Tracks', 'Two-Train Tracks', 'Three-Train Tracks', 'Four-Train Tracks', 'Five-Train Tracks', 'Six-Train Tracks', 'Longest Track Length'];
 		var quantityFieldNames = quantityFields.map(nameFormatter);
@@ -50,6 +50,7 @@
 				fieldInput.min = 0;
 				fieldInput.className = field + color;
 				fieldInput.style = 'width:50px;';
+				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 				
 				var fieldCell = document.createElement('td');
 				fieldCell.appendChild(fieldInput);
@@ -74,6 +75,7 @@
 				fieldInput.value = 0;
 				fieldInput.className = field + color;
 				fieldInput.style = 'width:50px;';
+				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 				
 				var fieldCell = document.createElement('td');
 				fieldCell.appendChild(fieldInput);
@@ -91,7 +93,7 @@
 					return false;
 			}
 			return true;
-		}
+		};
 		
 		var longestTrackColors = function()
 		{
@@ -115,8 +117,31 @@
 					}
 				}
 			});
-			return longestColors;
-		}
+			return maxLength == 0 ? [] : longestColors;
+		};
+		
+		var arraySum = function(sum, current, index, array) { return sum + parseInt(current); };
+		var addSpaceSeparatedNumbers = function(numberString) { return numberString.split(/\s+/).reduce(arraySum, 0); };
+		
+		var calculateScoreForColor = (function()
+		{
+			return function(color, longestTracks)
+			{
+				if (!colorIsValid(color))
+					return '<span style="color:#f00;">error</span>';
+				var score = document.getElementsByClassName(quantityFieldNames[0] + color)[0].valueAsNumber;
+				score += document.getElementsByClassName(quantityFieldNames[1] + color)[0].valueAsNumber * 2;
+				score += document.getElementsByClassName(quantityFieldNames[2] + color)[0].valueAsNumber * 4;
+				score += document.getElementsByClassName(quantityFieldNames[3] + color)[0].valueAsNumber * 7;
+				score += document.getElementsByClassName(quantityFieldNames[4] + color)[0].valueAsNumber * 10;
+				score += document.getElementsByClassName(quantityFieldNames[5] + color)[0].valueAsNumber * 15;
+				score += longestTracks.indexOf(color) >= 0 ? 10 : 0;
+				score += addSpaceSeparatedNumbers(document.getElementsByClassName(textFieldNames[0] + color)[0].value);
+				score -= addSpaceSeparatedNumbers(document.getElementsByClassName(textFieldNames[1] + color)[0].value);
+				score += addSpaceSeparatedNumbers(document.getElementsByClassName(textFieldNames[2] + color)[0].value);
+				return score;
+			};
+		})();
 		
 		ticketToRideCalculateScores = function()
 		{
@@ -125,17 +150,9 @@
 			
 			colorNames.forEach(function(color)
 			{
-				var scoreCell = document.getElementsByClassName(scorePrefix + color)[0];
-				if (colorIsValid(color))
-				{
-					var score = 0;
-				}
-				else
-				{
-					scoreCell.innerHTML = '<span style="color:#f00;">error</span>';
-				}
+				document.getElementsByClassName(scorePrefix + color)[0].innerHTML = calculateScoreForColor(color, longestTracks);
 			});
-		}
+		};
 		
 		var tableFoot = document.createElement('tfoot');
 		
@@ -143,6 +160,7 @@
 		calculateButton.type = 'button';
 		calculateButton.style = 'width:100%;';
 		calculateButton.value = 'Calculate Scores';
+		calculateButton.setAttribute('onclick', 'ticketToRideCalculateScores()');
 		
 		var calculateButtonTD = document.createElement('td');
 		calculateButtonTD.appendChild(calculateButton);
