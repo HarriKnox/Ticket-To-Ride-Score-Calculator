@@ -138,10 +138,10 @@
 				fieldCell.appendChild(fieldInput);
 				
 				fieldInput.type = 'number';
-				fieldInput.value = 0;
 				fieldInput.min = 0;
 				fieldInput.className = field + color;
 				fieldInput.style = 'width:50px;';
+				fieldInput.setAttribute('value', 0);
 				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 			});
 			tableBody.appendChild(fieldRow);
@@ -166,9 +166,9 @@
 				
 				fieldInput.type = 'text';
 				fieldInput.pattern = '^-?\\d+(\\s+-?\\d+)*$';
-				fieldInput.value = 0;
 				fieldInput.className = field + color;
 				fieldInput.style = 'width:50px;';
+				fieldInput.setAttribute('value', '0');
 				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 			});
 			tableBody.appendChild(fieldRow);
