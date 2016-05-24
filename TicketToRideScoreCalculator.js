@@ -90,6 +90,17 @@
 			});
 		};
 		
+		clearValues = function()
+		{
+			allFieldNames.forEach(function(field)
+			{
+				colorNames.forEach(function(color)
+				{
+					document.getElementsByClassName(field + color)[0].value = '0';
+				});
+			});
+		};
+		
 		
 		var tableBody = document.createElement('tbody');
 		var tableHead = document.createElement('thead');
@@ -183,12 +194,22 @@
 		
 		var calculateButtonTD = document.createElement('td');
 		calculateButtonTD.appendChild(calculateButton);
-		calculateButtonTD.colSpan = 5;
+		calculateButtonTD.colSpan = 4;
 		
-		var calculateButtonRow = document.createElement('tr');
-		calculateButtonRow.appendChild(document.createElement('td'));
-		calculateButtonRow.appendChild(calculateButtonTD);
-		tableFoot.appendChild(calculateButtonRow);
+		var clearButton = document.createElement('input');
+		clearButton.type = 'button';
+		clearButton.style = 'width:100%;';
+		clearButton.value = 'Clear';
+		clearButton.setAttribute('onclick', 'clearValues()');
+		
+		var clearButtonTD = document.createElement('td');
+		clearButtonTD.appendChild(clearButton);
+		
+		var buttonsRow = document.createElement('tr');
+		buttonsRow.appendChild(document.createElement('td'));
+		buttonsRow.appendChild(calculateButtonTD);
+		buttonsRow.appendChild(clearButtonTD);
+		tableFoot.appendChild(buttonsRow);
 		
 		var scoresRow = document.createElement('tr');
 		var scoresLabel = document.createElement('td');
