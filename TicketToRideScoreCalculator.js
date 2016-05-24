@@ -19,13 +19,10 @@
 		
 		var colorIsValid = function(color)
 		{
-			for (var i = 0, len = allFieldNames.length; i < len; i++)
+			return allFieldNames.every(function(field)
 			{
-				var field = allFieldNames[i];
-				if (!(document.getElementsByClassName(field + color)[0].validity.valid))
-					return false;
-			}
-			return true;
+				return document.getElementsByClassName(field + color)[0].validity.valid;
+			});
 		};
 		
 		var addSpaceSeparatedNumbers = (function()
