@@ -16,6 +16,8 @@
 		
 		var allFieldNames = quantityFieldNames.concat(textFieldNames);
 		
+		var scorePrefix = TTRSC + 'scores-';
+		
 		
 		var colorIsValid = function(color)
 		{
@@ -79,7 +81,6 @@
 		ticketToRideCalculateScores = function()
 		{
 			var longestTracks = longestTrackColors();
-			var scorePrefix = TTRSC + 'scores-';
 			
 			colorNames.forEach(function(color)
 			{
@@ -89,12 +90,13 @@
 		
 		clearValues = function()
 		{
-			allFieldNames.forEach(function(field)
+			colorNames.forEach(function(color)
 			{
-				colorNames.forEach(function(color)
+				allFieldNames.forEach(function(field)
 				{
 					document.getElementsByClassName(field + color)[0].value = '0';
 				});
+				document.getElementsByClassName(scorePrefix + color)[0].innerHTML = 0;
 			});
 		};
 		
