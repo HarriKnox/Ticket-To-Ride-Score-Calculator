@@ -96,7 +96,7 @@
 				{
 					document.getElementsByClassName(field + color)[0].value = '0';
 				});
-				document.getElementsByClassName(scorePrefix + color)[0].innerHTML = 0;
+				document.getElementsByClassName(scorePrefix + color)[0].innerHTML = '0';
 			});
 		};
 		
