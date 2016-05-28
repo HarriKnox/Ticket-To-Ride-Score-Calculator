@@ -101,13 +101,15 @@
 		};
 		
 		
-		var tableBody = document.createElement('tbody');
+		var tableBodyNumbers = document.createElement('tbody');
+		var tableBodyText = document.createElement('tbody');
 		var tableHead = document.createElement('thead');
 		var tableFoot = document.createElement('tfoot');
 		
 		var table = document.createElement('table');
 		table.appendChild(tableHead);
-		table.appendChild(tableBody);
+		table.appendChild(tableBodyNumbers);
+		table.appendChild(tableBodyText);
 		table.appendChild(tableFoot);
 		
 		var parent = (function(coll) { return coll[coll.length - 1]; })(document.getElementsByTagName('script')).parentNode;
@@ -154,7 +156,7 @@
 				fieldInput.setAttribute('value', 0);
 				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 			});
-			tableBody.appendChild(fieldRow);
+			tableBodyNumbers.appendChild(fieldRow);
 		});
 		
 		textFieldNames.forEach(function(field, fieldIndex)
@@ -181,7 +183,7 @@
 				fieldInput.setAttribute('value', '0');
 				fieldInput.setAttribute('onkeydown', 'if (event.keyCode === 13) ticketToRideCalculateScores();');
 			});
-			tableBody.appendChild(fieldRow);
+			tableBodyText.appendChild(fieldRow);
 		});
 		
 		
